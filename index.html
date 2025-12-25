@@ -478,6 +478,14 @@
             border-color: rgba(239, 68, 68, 0.3);
         }
 
+        /* Info note under breach checker */
+        .breach-note {
+            font-size: 0.75rem;
+            color: var(--color-muted);
+            margin-top: 8px;
+            line-height: 1.4;
+        }
+
         /* ===== RESPONSIVE ===== */
         @media (max-width: 600px) {
             .header {
@@ -600,11 +608,15 @@
                 <div id="vaultList" style="margin-top: 20px;"></div>
             </div>
 
-            <!-- TAB 4: DATA BREACH CHECKER -->
+            <!-- TAB 4: DATA BREACH CHECKER (DEMO) -->
             <div id="breach" class="tab-content">
-                <h2 style="margin-bottom: 16px;">Data Breach Checker</h2>
-                
-                <div class="form-group">
+                <h2 style="margin-bottom: 4px;">Data Breach Checker (Demo)</h2>
+                <p class="breach-note">
+                    This is a demo checker. Real breach API integration is coming soon.<br>
+                    Your email is processed locally in this demo and not sent to any external server.
+                </p>
+
+                <div class="form-group" style="margin-top: 16px;">
                     <label for="breachEmail">Email Address</label>
                     <input type="email" id="breachEmail" placeholder="your.email@example.com">
                 </div>
@@ -902,7 +914,7 @@
 
         renderVault();
 
-        // ===== DATA BREACH CHECKER =====
+        // ===== DATA BREACH CHECKER (DEMO) =====
         const breachEmail = document.getElementById('breachEmail');
         const checkBreachBtn = document.getElementById('checkBreachBtn');
         const breachResult = document.getElementById('breachResult');
@@ -915,27 +927,29 @@
             }
 
             breachResult.classList.remove('safe', 'unsafe', 'show');
-            breachResult.textContent = '⏳ Checking...';
+            breachResult.textContent = '⏳ Checking (demo)...';
             breachResult.classList.add('show');
 
-            // Demo: simulating breach check
+            // Demo: simulating breach check (no real API call)
             setTimeout(() => {
                 const isCompromised = Math.random() > 0.7;
                 
                 if (isCompromised) {
                     breachResult.className = 'breach-result show unsafe';
                     breachResult.innerHTML = `
-                        <strong style="color: #ef4444;">⚠️ Found in Data Breach</strong>
+                        <strong style="color: #ef4444;">⚠️ Found in Data Breach (Demo)</strong>
                         <p style="margin-top: 8px; font-size: 0.85rem; color: var(--color-muted);">
-                            This email was found in 1+ known data breaches. Consider changing your password immediately.
+                            Demo result: This email is marked as found in a simulated data breach. 
+                            In the real version, this will be checked against a live breach API.
                         </p>
                     `;
                 } else {
                     breachResult.className = 'breach-result show safe';
                     breachResult.innerHTML = `
-                        <strong style="color: #10b981;">✓ Not Found in Breaches</strong>
+                        <strong style="color: #10b981;">✓ Not Found in Breaches (Demo)</strong>
                         <p style="margin-top: 8px; font-size: 0.85rem; color: var(--color-muted);">
-                            Good news! This email was not found in known data breaches.
+                            Demo result: This email is marked as not found in simulated breaches.
+                            Real-time breach checks will be available in a future update.
                         </p>
                     `;
                 }
