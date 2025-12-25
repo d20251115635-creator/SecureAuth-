@@ -478,14 +478,6 @@
             border-color: rgba(239, 68, 68, 0.3);
         }
 
-        /* Info note under breach checker */
-        .breach-note {
-            font-size: 0.75rem;
-            color: var(--color-muted);
-            margin-top: 8px;
-            line-height: 1.4;
-        }
-
         /* ===== RESPONSIVE ===== */
         @media (max-width: 600px) {
             .header {
@@ -535,9 +527,9 @@
                 <div class="form-group">
                     <label for="checkPassword">Enter your password</label>
                     <input 
-                        type="password" 
+                        type="text" 
                         id="checkPassword" 
-                        placeholder="••••••••"
+                        placeholder="Type your password here"
                         autocomplete="current-password"
                     >
                     <div class="strength-meter">
@@ -611,9 +603,9 @@
             <!-- TAB 4: DATA BREACH CHECKER (DEMO) -->
             <div id="breach" class="tab-content">
                 <h2 style="margin-bottom: 4px;">Data Breach Checker (Demo)</h2>
-                <p class="breach-note">
-                    This is a demo checker. Real breach API integration is coming soon.<br>
-                    Your email is processed locally in this demo and not sent to any external server.
+                <p style="font-size: 0.75rem; color: var(--color-muted); margin-top: 8px; line-height: 1.4;">
+                    This is a demo checker only. Results are random and not based on real breach databases.<br>
+                    Real breach API integration is coming soon. Your email is processed locally and not sent to any external server.
                 </p>
 
                 <div class="form-group" style="margin-top: 16px;">
@@ -750,6 +742,18 @@
         const savedBg = localStorage.getItem('secureauth-bg') || 'dark';
         html.setAttribute('data-theme', savedTheme);
         html.setAttribute('data-bg', savedBg);
+
+        // Update selected buttons on load
+        document.querySelectorAll('[data-set-theme]').forEach(btn => {
+            if (btn.getAttribute('data-set-theme') === savedTheme) {
+                btn.classList.add('selected');
+            }
+        });
+        document.querySelectorAll('[data-set-bg]').forEach(btn => {
+            if (btn.getAttribute('data-set-bg') === savedBg) {
+                btn.classList.add('selected');
+            }
+        });
 
         // ===== TABS =====
         document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -914,12 +918,12 @@
 
         renderVault();
 
-        // ===== DATA BREACH CHECKER (DEMO) =====
+        // ===== DATA BREACH CHECKER =====
         const breachEmail = document.getElementById('breachEmail');
         const checkBreachBtn = document.getElementById('checkBreachBtn');
         const breachResult = document.getElementById('breachResult');
 
-        checkBreachBtn.addEventListener('click', async () => {
+        checkBreachBtn.addEventListener('click', function() {
             const email = breachEmail.value;
             if (!email) {
                 alert('Please enter an email');
@@ -927,10 +931,10 @@
             }
 
             breachResult.classList.remove('safe', 'unsafe', 'show');
-            breachResult.textContent = '⏳ Checking (demo)...';
+            breachResult.textContent = '⏳ Checking...';
             breachResult.classList.add('show');
 
-            // Demo: simulating breach check (no real API call)
+            // Demo: simulating breach check (results are random, not real)
             setTimeout(() => {
                 const isCompromised = Math.random() > 0.7;
                 
@@ -957,7 +961,6 @@
         });
 
         // Auto-generate on first load
-        generatePassword();
         generatedPassword.value = generatePassword();
     </script>
 </body>
